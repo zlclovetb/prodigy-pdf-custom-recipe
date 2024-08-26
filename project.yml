@@ -94,11 +94,11 @@ commands:
   - name: "clean-db"
     help: "Drop all generated Prodigy datasets"
     script:
-      - "prodigy drop ${vars.dataset_name}"
-      - "prodigy drop ${vars.dataset_name}-debug"
+      - "python3 -m prodigy drop ${vars.dataset_name}"
+      - "python3 -m prodigy drop ${vars.dataset_name}-debug"
 
   - name: "clean-files"
     help: "Clean all intermediary files"
     script:
-      - "sh -c 'rm -rf assets/*'"
-      - "sh -c 'rm -rf dataset/*'"
+      - "cmd /c rmdir /S /Q assets"
+      - "cmd /c rmdir /S /Q dataset"

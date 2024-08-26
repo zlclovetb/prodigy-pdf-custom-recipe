@@ -44,7 +44,7 @@ def get_image(id: str, encode_b64: bool, images_dir: Union[Path, str]) -> str:
 def get_labels(id: str, labels_dir: Union[Path, str]) -> Dict:
     """Get the labels given a file ID"""
     annot_fp = labels_dir / f"{id}.json"
-    with annot_fp.open() as f:
+    with annot_fp.open(mode='r', encoding='utf-8') as f:
         annot = json.load(f)
     return annot
 

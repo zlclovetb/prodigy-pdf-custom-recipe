@@ -8,6 +8,7 @@ from transformers import AutoProcessor, LayoutLMv3ForTokenClassification
 from transformers import Trainer, TrainingArguments
 from transformers.data.data_collator import default_data_collator
 from wasabi import msg
+import evaluate
 
 try:
     from prodigy.types import TaskType
@@ -133,7 +134,7 @@ def compute_metrics(
 
     Source: https://github.com/NielsRogge/Transformers-Tutorials/blob/master/LayoutLMv3/Fine_tune_LayoutLMv3_on_FUNSD_(HuggingFace_Trainer).ipynb
     """
-    metric = load_metric("seqeval")
+    metric = evaluate.load("seqeval")
 
     def _compute_metrics(p: NamedTuple) -> Dict:
         predictions, labels = p

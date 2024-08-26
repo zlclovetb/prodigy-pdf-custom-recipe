@@ -8,11 +8,36 @@ clean:
   spacy_version: 3.2.4
   spacy_git_version: b50fe5ec6
 hydrate-db:
-  cmd: python -m spacy run hydrate-db
+  cmd: python -m weasel run hydrate-db
   script:
-    - python -m scripts.preprocess assets/funsd.zip dataset/
-    - python -m prodigy db-in-image funsd -F scripts/recipes/loaders.py
+    - python3 -m scripts.preprocess assets/funsd.zip dataset/
+    - python3 -m prodigy db-in-image funsd -F scripts/recipes/loaders.py
+  deps:
+    - path: assets/funsd.zip
+      md5: e05de47de238aa343bf55d8807d659a9
+  outs: []
+train:
+  cmd: python -m weasel run train
+  script:
+    - python3 -m prodigy image.train funsd model/ -F scripts/recipes/train.py --verbose
+      --eval
+  deps: []
+  outs:
+    - path: model/checkpoint-500/
+      md5: 0f60d97329bd26a7d6aa39f1fa3f636c
+    - path: model/checkpoint-1000/
+      md5: 0dc5877ce33dea825dec3530fbf78652
+clean-db:
+  cmd: python -m weasel run clean-db
+  script:
+    - python3 -m prodigy drop funsd
+    - python3 -m prodigy drop funsd-debug
   deps: []
   outs: []
-  spacy_version: 3.2.4
-  spacy_git_version: b50fe5ec6
+clean-files:
+  cmd: python -m weasel run clean-files
+  script:
+    - cmd /c rmdir /S /Q assets
+    - cmd /c rmdir /S /Q dataset
+  deps: []
+  outs: []

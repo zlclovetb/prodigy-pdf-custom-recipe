@@ -23,7 +23,7 @@ def make_bboxes(bbox_path: str, stream: StreamType) -> StreamType:
 
     def _get_labels(id: str) -> Dict:
         annot_fp = Path(bbox_path) / f"{id}.json"
-        with annot_fp.open() as f:
+        with annot_fp.open(mode='r', encoding='utf-8') as f:
             annot = json.load(f)
         return annot
 
